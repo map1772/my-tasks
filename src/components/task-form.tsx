@@ -1,3 +1,4 @@
+import { Plus } from 'lucide-react';
 import { useState, type FormEvent } from 'react';
 
 type TaskFormProps = {
@@ -19,10 +20,8 @@ export const TaskForm = ({ onAdd }: TaskFormProps) => {
   };
 
   return (
-    <form className="task-form" onSubmit={submit}>
-      <label className="sr-only" htmlFor="new-task">
-        Новая задача
-      </label>
+    <form className="task-form" onSubmit={submit} noValidate>
+      <label className="sr-only" htmlFor="new-task">Новая задача</label>
       <input
         id="new-task"
         value={title}
@@ -31,12 +30,16 @@ export const TaskForm = ({ onAdd }: TaskFormProps) => {
           if (error) setError('');
         }}
         maxLength={160}
-        placeholder="ДОБАВИТЬ НОВУЮ ЗАДАЧУ..."
+        placeholder="Название задачи"
         autoComplete="off"
-        aria-describedby={error ? 'task-error' : undefined}
+        aria-invalid={Boolean(error)}
+        aria-describedby="task-form-hint"
       />
-      <button type="submit">Добавить</button>
-      <span className="sr-only" id="task-error" aria-live="polite">
+      <button type="submit" aria-label="Добавить">
+        <Plus aria-hidden="true" />
+        <span>Добавить</span>
+      </button>
+      <span id="task-form-hint" className="sr-only" aria-live="polite">
         {error}
       </span>
     </form>
